@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EntityDetect - Named Entity Recognition (NER) Demonstration for College Text and Speech Analysis Experiment 05.">
+  <title>EntityDetect – Named Entity Recognition | Experiment 05</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Top Academic Banner / Header -->
+    <header class="app-header" id="app-header">
+      <div class="header-container">
+        <div class="academic-badge">
+          <span class="pulse-dot"></span>
+          <span>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</span>
+        </div>
+        <h2 class="course-title">TEXT &amp; SPEECH ANALYSIS</h2>
+        <div class="exp-title-row">
+          <span class="exp-tag">LAB EXPERIMENT 05</span>
+          <h1 class="main-title">EntityDetect – Named Entity Recognition</h1>
+        </div>
+        <p class="header-subtitle">
+          Demonstrate Named Entity Recognition by identifying, classifying, and highlighting real-world entities in natural language text.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+      
+      <!-- Theory & Concept Box -->
+      <section class="concept-section" aria-labelledby="concept-heading">
+        <div class="concept-card">
+          <div class="concept-header">
+            <div class="concept-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </div>
+            <h3 id="concept-heading">NLP Concept: Named Entity Recognition (NER)</h3>
+          </div>
+          <p class="concept-statement">
+            <strong>“Named Entity Recognition is an NLP technique used to identify real-world entities such as people, locations, organizations and dates from text.”</strong>
+          </p>
+          <div class="concept-chips">
+            <span class="chip-item"><strong>Subtask:</strong> Information Extraction</span>
+            <span class="chip-item"><strong>Technique:</strong> Rule-based Pattern Matching &amp; Gazettes</span>
+            <span class="chip-item"><strong>Goal:</strong> Structured Knowledge Representation</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Entity Legend -->
+      <section class="legend-section" aria-label="Entity Types Legend">
+        <div class="section-subhead">
+          <span class="subhead-label">DETECTED ENTITY CLASSES</span>
+        </div>
+        <div class="legend-grid">
+          <div class="legend-badge-item badge-person">
+            <span class="type-indicator"></span>
+            <span class="type-name">PERSON</span>
+            <span class="type-desc">People, names with honorifics (Dr., Mr., Prof.)</span>
+          </div>
+          <div class="legend-badge-item badge-org">
+            <span class="type-indicator"></span>
+            <span class="type-name">ORGANIZATION</span>
+            <span class="type-desc">Hospitals, universities, companies, agencies</span>
+          </div>
+          <div class="legend-badge-item badge-location">
+            <span class="type-indicator"></span>
+            <span class="type-name">LOCATION</span>
+            <span class="type-desc">Cities, countries, states, geographical sites</span>
+          </div>
+          <div class="legend-badge-item badge-date">
+            <span class="type-indicator"></span>
+            <span class="type-name">DATE</span>
+            <span class="type-desc">Years, calendar dates, days, time expressions</span>
+          </div>
+          <div class="legend-badge-item badge-tech">
+            <span class="type-indicator"></span>
+            <span class="type-name">TECHNOLOGY</span>
+            <span class="type-desc">Programming languages, AI tools, platforms</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Input Area & Controls -->
+      <section class="input-section" aria-labelledby="input-heading">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3 id="input-heading">Input Text for Analysis</h3>
+              <span class="panel-instruction">Enter your custom text or load pre-configured college lab examples</span>
+            </div>
+            
+            <div class="example-picker-group">
+              <label for="example-select" class="sr-only">Choose an Example</label>
+              <select id="example-select" class="example-dropdown" title="Select pre-built example text">
+                <option value="default">Example 1: Required Lab Test (Dr. Arun)</option>
+                <option value="tech">Example 2: AI &amp; Tech Industry</option>
+                <option value="academic">Example 3: Academic Research &amp; Conference</option>
+                <option value="space">Example 4: Space Mission &amp; Geography</option>
+              </select>
+              <button type="button" id="btn-load-example" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Load Example
+              </button>
+            </div>
+          </div>
+
+          <div class="textarea-wrapper">
+            <textarea 
+              id="ner-input-text" 
+              class="ner-textarea" 
+              rows="6" 
+              placeholder="Paste or type any sentence here... (e.g. Dr. Arun works at Apollo Hospital in Chennai. He started working there in 2024.)"
+              spellcheck="false"
+            ></textarea>
+            <div class="textarea-footer">
+              <span id="char-word-count">0 characters | 0 words</span>
+              <button type="button" id="btn-sample-shortcut" class="sample-link">Load standard experiment sentence</button>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <div class="left-actions">
+              <button type="button" id="btn-analyze" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Analyze Entities
+              </button>
+              <button type="button" id="btn-clear" class="btn btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear
+              </button>
+            </div>
+            <div class="right-actions">
+              <span class="status-indicator" id="status-indicator">Ready for input</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="results-section" id="results-section" aria-labelledby="results-heading">
+        
+        <!-- Summary Stats Banner -->
+        <div class="stats-grid">
+          <div class="stat-card stat-total">
+            <span class="stat-label">TOTAL DETECTED ENTITIES</span>
+            <span class="stat-value" id="stat-total-count">0</span>
+            <span class="stat-sub">Across all 5 categories</span>
+          </div>
+          <div class="stat-card stat-person">
+            <span class="stat-label">PERSON</span>
+            <span class="stat-value" id="stat-person-count">0</span>
+            <span class="stat-sub">Names &amp; Titles</span>
+          </div>
+          <div class="stat-card stat-org">
+            <span class="stat-label">ORGANIZATION</span>
+            <span class="stat-value" id="stat-org-count">0</span>
+            <span class="stat-sub">Enterprises &amp; Inst.</span>
+          </div>
+          <div class="stat-card stat-location">
+            <span class="stat-label">LOCATION</span>
+            <span class="stat-value" id="stat-location-count">0</span>
+            <span class="stat-sub">Geo Places &amp; Cities</span>
+          </div>
+          <div class="stat-card stat-date">
+            <span class="stat-label">DATE</span>
+            <span class="stat-value" id="stat-date-count">0</span>
+            <span class="stat-sub">Years &amp; Dates</span>
+          </div>
+          <div class="stat-card stat-tech">
+            <span class="stat-label">TECHNOLOGY</span>
+            <span class="stat-value" id="stat-tech-count">0</span>
+            <span class="stat-sub">Tools &amp; Langs</span>
+          </div>
+        </div>
+
+        <!-- Highlighted Visual Display -->
+        <div class="panel-card highlight-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3 id="results-heading">Annotated Text with Highlighted Entities</h3>
+              <span class="panel-instruction">Entities are color-coded with visual tags for immediate visual inspection</span>
+            </div>
+            <div class="header-action-btns">
+              <button type="button" id="btn-copy-highlighted" class="btn btn-sm btn-outline" title="Copy raw text">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copy Text
+              </button>
+            </div>
+          </div>
+          <div class="annotated-content-box" id="annotated-output">
+            <p class="placeholder-text">Click <strong>"Analyze Entities"</strong> or <strong>"Load Example"</strong> above to see the highlighted Named Entity Recognition results.</p>
+          </div>
+        </div>
+
+        <!-- Entity Extraction Table -->
+        <div class="panel-card table-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h3>Extracted Entities Table</h3>
+              <span class="panel-instruction">Tabular summary of all identified Named Entities and their classified types</span>
+            </div>
+            <div class="table-filter-group">
+              <label for="filter-entity-type" class="filter-label">Filter Type:</label>
+              <select id="filter-entity-type" class="filter-dropdown">
+                <option value="ALL">All Types</option>
+                <option value="PERSON">PERSON</option>
+                <option value="ORGANIZATION">ORGANIZATION</option>
+                <option value="LOCATION">LOCATION</option>
+                <option value="DATE">DATE</option>
+                <option value="TECHNOLOGY">TECHNOLOGY</option>
+              </select>
+              <button type="button" id="btn-export-csv" class="btn btn-sm btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="ner-table" id="ner-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">#</th>
+                  <th>Entity</th>
+                  <th>Type</th>
+                  <th>Category Badge</th>
+                  <th style="width: 120px;">Position</th>
+                </tr>
+              </thead>
+              <tbody id="ner-table-body">
+                <tr>
+                  <td colspan="5" class="empty-table-cell">No entities detected yet. Analyze text above to populate this table.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="table-footer-summary">
+            <span id="table-entries-count">Showing 0 entities</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Educational Lab Notes / Methodology -->
+      <section class="methodology-section" aria-labelledby="methodology-heading">
+        <div class="methodology-card">
+          <h3 id="methodology-heading">Laboratory Notes: How Named Entity Recognition Works</h3>
+          <div class="methodology-grid">
+            <div class="method-col">
+              <h4>1. Preprocessing &amp; Tokenization</h4>
+              <p>Text is cleaned and segmented into individual sentence and word tokens, tracking character start and end offsets to preserve context alignment.</p>
+            </div>
+            <div class="method-col">
+              <h4>2. Pattern Matching &amp; Gazettes</h4>
+              <p>Rule-based regular expressions (titles like Dr./Prof., standard year/date formats) combined with curated domain dictionaries (cities, organizations, technologies) pinpoint candidate mentions.</p>
+            </div>
+            <div class="method-col">
+              <h4>3. Disambiguation &amp; Span Resolution</h4>
+              <p>Overlapping spans are prioritized by maximum token length (e.g. multi-word "Apollo Hospital" over individual words), ensuring clean non-conflicting annotations.</p>
+            </div>
+            <div class="method-col">
+              <h4>4. Classification &amp; Output</h4>
+              <p>Each resolved entity is tagged with its semantic class (PERSON, LOCATION, ORGANIZATION, DATE, TECHNOLOGY) and structured for downstream NLP tasks.</p>
+            </div>
+          </div>
+          <div class="lab-footer-note">
+            <span><strong>Course:</strong> Text and Speech Analysis (TSA)</span>
+            <span><strong>Platform:</strong> Client-side JavaScript NLP Engine (No Backend / No API Key required)</span>
+            <span><strong>Status:</strong> Validated for Academic Demonstration</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p><strong>EntityDetect</strong> &bull; Text &amp; Speech Analysis Experiment 05 &bull; Department of Computer Science &amp; Engineering</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
